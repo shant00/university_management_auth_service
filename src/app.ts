@@ -1,12 +1,13 @@
 import cors from 'cors'
 import express, { Application, Request, Response } from 'express'
+import useRouter from './app/modules/users/user.routes'
 const app: Application = express()
 
 app.use(cors())
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
+app.use('/api/v1/users', useRouter)
 app.get('/', (req: Request, res: Response) => {
   res.send('API is running')
 })
