@@ -1,6 +1,7 @@
 import cors from 'cors'
 import express, { Application, Request, Response } from 'express'
 import useRouter from './app/modules/users/user.routes'
+import globalErrorHandler from './errors/middlewares/globalErrorHandler'
 const app: Application = express()
 
 app.use(cors())
@@ -11,6 +12,8 @@ app.use('/api/v1/users', useRouter)
 app.get('/', (req: Request, res: Response) => {
   res.send('API is running')
 })
+
+app.use(globalErrorHandler)
 
 /**
  NODE_ENV=development
