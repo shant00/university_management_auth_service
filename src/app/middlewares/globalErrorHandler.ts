@@ -1,8 +1,10 @@
 import { ErrorRequestHandler } from 'express'
 import { error } from 'winston'
+import { ZodError } from 'zod'
 import config from '../../config'
 import ApiError from '../../errors/ApiErros'
 import handleValidationError from '../../errors/handleValidationError'
+import handleZodError from '../../errors/handleZodErrors'
 import IGenericErrorMessage from '../../interfaces/error'
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
@@ -11,6 +13,11 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   let errorMessages: IGenericErrorMessage[] = []
   if (err?.name === 'ValidationError') {
     const simplifiedError = handleValidationError(err)
+    statusCode = simplifiedError.statusCode
+    message = simplifiedError.message
+    errorMessages = simplifiedError.errorMessages
+  } else if (error instanceof ZodError) {
+    const simplifiedError = handleZodError(err)
     statusCode = simplifiedError.statusCode
     message = simplifiedError.message
     errorMessages = simplifiedError.errorMessages
