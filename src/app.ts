@@ -1,17 +1,21 @@
 import cors from 'cors'
-import express, { Application, Request, Response } from 'express'
+import express, { Application } from 'express'
 import globalErrorHandler from './app/middlewares/globalErrorHandler'
-import useRouter from './app/modules/users/user.routes'
+import router from './app/routes'
+
 const app: Application = express()
 
 app.use(cors())
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use('/api/v1/users', useRouter)
-app.get('/', (req: Request, res: Response) => {
-  res.send('API is running')
-})
+// app.use('/api/v1/users', useRouter)
+// app.use('/api/v1/academic-semester', AcademicSemesterRoutes)
+// app.get('/', (req: Request, res: Response) => {
+//   res.send('API is running')
+// })
+
+app.use('/api/v1', router)
 
 app.use(globalErrorHandler)
 
