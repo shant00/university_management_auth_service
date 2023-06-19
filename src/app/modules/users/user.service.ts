@@ -1,10 +1,10 @@
 import config from '../../../config/index'
 import { IUser } from './user.interface'
 import { User } from './user.model'
-import { generateUserId } from './user.utils'
+import { generateStudentId } from './user.utils'
 
-export const createUser = async (user: IUser): Promise<IUser | null> => {
-  const id = await generateUserId()
+const createStudent = async (user: IUser): Promise<IUser | null> => {
+  const id = await generateStudentId()
   user.id = id
   if (!user.password) {
     user.password = config.default_user_pass as string
@@ -15,3 +15,4 @@ export const createUser = async (user: IUser): Promise<IUser | null> => {
   }
   return createdUser
 }
+export default { createStudent }
